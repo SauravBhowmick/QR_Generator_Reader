@@ -1,0 +1,1 @@
+json, text, url generation requires qrcode and PIL libraries.
