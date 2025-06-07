@@ -241,9 +241,9 @@ If you encounter any issues or have questions:
 
 | Format | Example |
 |--------|---------|
-| JSON Format | ![JSON QR](QR_Generation/examples/json_qr_example.png) |
-| Text Format | ![Text QR](QR_Generation/examples/text_qr_example.png) |
-| URL Format | ![URL QR](QR_Generation/examples/url_qr_example.png) |
+| JSON Format | ![JSON QR](examples/json_qr_example.png) |
+| Text Format | ![Text QR](examples/text_qr_example.png) |
+| URL Format | ![URL QR](examples/url_qr_example.png) |
 
 ---
 
