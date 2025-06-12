@@ -1,0 +1,17 @@
+# QR Reader Dependencies
+# Core computer vision library for video processing and QR code detection
+opencv-python>=4.5.0
+
+# NumPy is typically included with OpenCV but listing explicitly for clarity
+numpy>=1.19.0
+
+# Optional: Enhanced OpenCV with additional codecs and optimizations
+# Uncomment if you need additional video codec support or optimized builds
+# opencv-contrib-python>=4.5.0
+
+# Optional: For advanced image processing (if extending functionality)
+# pillow>=8.0.0
+
+# Optional: For logging and data analysis (if adding these features)
+# pandas>=1.3.0
+# matplotlib>=3.3.0
