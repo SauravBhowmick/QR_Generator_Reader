@@ -1,191 +1,264 @@
-# Drone QR Scanner
+# 📷 Enhanced QR Code Scanner
 
-A real-time QR code detection system designed for drone applications using OpenCV and computer vision. This application captures video feed from a camera source (webcam or drone stream) and automatically detects and decodes QR codes in the video stream.
+A comprehensive real-time QR code detection system that combines the best features from multiple approaches. This application supports both webcam and drone applications using OpenCV and pyzbar for maximum compatibility and performance.
 
-## Repository Information
+## 🌟 Features
 
-- **Repository**: https://github.com/SauravBhowmick/QR_Generator_Reader
-- **File Location**: `QR_Reading/QR_Reader.py`
-- **Main Branch**: `main`
+✅ **Dual Detection Methods**: Uses both pyzbar and OpenCV's built-in QR detector for maximum reliability  
+✅ **Real-time Scanning**: Live video feed processing from webcam or drone streams  
+✅ **Visual Feedback**: Green bounding boxes and polygon outlines around detected QR codes  
+✅ **Flexible Operation Modes**: Single detection or continuous scanning  
+✅ **Multiple Input Sources**: Webcam, external cameras, RTSP streams, HTTP streams  
+✅ **Data Logging**: Optional logging of detected QR codes with timestamps  
+✅ **On-Screen Display**: QR code content displayed directly on video feed  
+✅ **Frame Capture**: Save frames with 's' key  
+✅ **Pause/Resume**: Control scanning with 'p' key  
+✅ **Drone-Ready**: Optimized for drone video streams and applications  
+✅ **Cross-Platform**: Works on Windows, macOS, and Linux  
 
-## Features
+## 📦 Requirements
 
-- **Real-time QR Code Detection**: Automatically detects and decodes QR codes from live video feed
-- **Visual Feedback**: Draws green bounding boxes around detected QR codes
-- **Flexible Input Sources**: Supports both webcam and drone video streams
-- **Drone-Ready**: Easily configurable for RTSP streams or drone SDK integration
-- **Lightweight**: Minimal dependencies and efficient processing
+### Essential Dependencies
+```bash
+pip install opencv-python
+```
 
-## Prerequisites
+### Enhanced Features (Recommended)
+```bash
+pip install pyzbar
+```
 
-- Python 3.6 or higher
-- OpenCV (cv2) library
-- Camera/webcam or drone with video streaming capability
+### Complete Installation
+```bash
+pip install opencv-python pyzbar argparse pathlib
+```
 
-## Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/SauravBhowmick/QR_Generator_Reader.git
-   cd QR_Generator_Reader/QR_Reading
-   ```
-
-2. **Install required dependencies**
-   ```bash
-   pip install opencv-python
-   ```
-
-   Or using requirements.txt:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-## Usage
+## 🚀 Quick Start
 
 ### Basic Usage (Webcam)
+```bash
+python qr_scanner.py
+```
 
-Run the script with default settings to use your computer's webcam:
+### Advanced Usage Examples
+
+**Single Detection Mode:**
+```bash
+python qr_scanner.py --single
+```
+
+**With Logging:**
+```bash
+python qr_scanner.py --log
+```
+
+**External Camera:**
+```bash
+python qr_scanner.py --source 1
+```
+
+**RTSP Stream (Drone):**
+```bash
+python qr_scanner.py --source "rtsp://192.168.1.100:8080/live"
+```
+
+**HTTP Stream:**
+```bash
+python qr_scanner.py --source "http://drone_ip:8080/stream"
+```
+
+## 🎮 Controls
+
+| Key | Action |
+|-----|--------|
+| `q` or `ESC` | Quit application |
+| `s` | Save current frame |
+| `p` | Pause/Resume scanning |
+
+## 🛠️ Command Line Options
 
 ```bash
-python QR_Reader.py
+usage: qr_scanner.py [-h] [--source SOURCE] [--continuous] [--single] [--log] [--no-display]
+
+Enhanced QR Code Scanner
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --source SOURCE, -s SOURCE
+                        Video source (0 for webcam, URL for streams)
+  --continuous, -c      Continue scanning after first detection (default)
+  --single              Exit after first QR code detection
+  --log, -l             Save detected QR codes to log file
+  --no-display         Don't display QR text on video frame
 ```
 
-### Drone Integration
+## 🚁 Drone Integration
 
-For drone applications, modify the video capture source in the code:
-
-```python
-# Replace this line:
-cap = cv2.VideoCapture(0)
-
-# With your drone's RTSP stream URL:
-cap = cv2.VideoCapture("rtsp://drone_ip:port/stream")
-
-# Or with drone SDK specific stream initialization
-```
-
-### Controls
-
-- **ESC or 'q'**: Quit the application
-- The application will automatically detect and display QR codes in real-time
-
-## Configuration
-
-### Camera Sources
-
-- **Default webcam**: `cv2.VideoCapture(0)`
-- **External camera**: `cv2.VideoCapture(1)` (increment number for additional cameras)
-- **RTSP stream**: `cv2.VideoCapture("rtsp://ip:port/path")`
-- **HTTP stream**: `cv2.VideoCapture("http://ip:port/stream")`
-
-### Drone-Specific Configuration
-
-Popular drone platforms and their typical stream configurations:
+### Supported Drone Platforms
 
 **DJI Drones:**
-```python
-# Using DJI Mobile SDK or similar
-cap = cv2.VideoCapture("rtsp://192.168.1.1:8080/live")
+```bash
+# Standard DJI stream
+python qr_scanner.py --source "rtmp://192.168.1.1:1935/live"
+
+# DJI Mobile SDK stream
+python qr_scanner.py --source "rtsp://192.168.1.1:8080/live"
 ```
 
 **Custom Drones:**
+```bash
+# Generic RTSP stream
+python qr_scanner.py --source "rtsp://drone_ip:554/stream"
+
+# UDP stream
+python qr_scanner.py --source "udp://drone_ip:1234"
+```
+
+**ArduPilot/PX4:**
+```bash
+# MAVLink video stream
+python qr_scanner.py --source "udp://127.0.0.1:5600"
+```
+
+### Drone Configuration Examples
+
+**For FPV Racing Drones:**
 ```python
-# Replace with your drone's specific stream URL
-cap = cv2.VideoCapture("rtsp://drone_ip:1935/live/stream")
+# Low latency configuration
+python qr_scanner.py --source "udp://192.168.1.10:5600" --single
 ```
 
-## Code Structure
-
-```
-QR_Generator_Reader/
-├── QR_Reading/
-│   ├── QR_Reader.py       # Main QR reading application
-│   └── README.md          # This documentation
-```
-
-## How It Works
-
-1. **Video Capture**: Initializes video capture from specified source (webcam/drone)
-2. **Frame Processing**: Continuously reads frames from the video stream
-3. **QR Detection**: Uses OpenCV's built-in QR code detector to scan each frame
-4. **Data Extraction**: Decodes QR code data when detected
-5. **Visual Feedback**: Draws green bounding rectangles around detected QR codes
-6. **Output**: Prints decoded QR code data to console
-
-## Output
-
-When a QR code is detected, the application will:
-- Print the decoded data to the console: `QR Code detected: [decoded_content]`
-- Draw a green rectangle around the QR code in the video feed
-- Continue scanning for additional QR codes
-
-## Troubleshooting
-
-### Common Issues
-
-**Camera not found:**
-```
-Failed to grab frame
-```
-- Check camera connection
-- Verify camera index (try 0, 1, 2, etc.)
-- Ensure camera is not being used by another application
-
-**Poor QR code detection:**
-- Ensure good lighting conditions
-- Check QR code size (not too small or too large)
-- Maintain stable camera position
-- Clean camera lens
-
-**Drone connection issues:**
-- Verify drone IP address and port
-- Check network connectivity
-- Ensure drone is broadcasting video stream
-- Confirm RTSP/HTTP stream URL format
-
-### Performance Optimization
-
-For better performance on resource-constrained systems:
-
+**For Survey/Mapping Applications:**
 ```python
-# Reduce frame size
-cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
-cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
-
-# Adjust frame rate
-cap.set(cv2.CAP_PROP_FPS, 15)
+# Continuous logging for waypoint navigation
+python qr_scanner.py --source "rtsp://drone:8080/hd" --log --continuous
 ```
 
-## Advanced Features
+## 🏗️ Code Architecture
+
+### Class Structure
+```
+QRCodeScanner
+├── __init__()          # Initialize scanner with configuration
+├── detect_qr_pyzbar()  # Enhanced QR detection using pyzbar
+├── detect_qr_opencv()  # Built-in OpenCV QR detection
+├── draw_qr_detection() # Visual feedback rendering
+├── log_qr_detection()  # Data logging functionality
+├── run()               # Main scanning loop
+└── cleanup()           # Resource cleanup
+```
+
+### Detection Flow
+1. **Video Capture**: Initialize video stream from source
+2. **Frame Processing**: Continuous frame capture and processing
+3. **Dual Detection**: Try pyzbar first, fallback to OpenCV
+4. **Visual Feedback**: Draw bounding boxes and display data
+5. **Data Handling**: Print to console and optionally log to file
+6. **Mode Control**: Handle single vs continuous operation
+
+## 📊 Output Examples
+
+### Console Output
+```
+✅ Pyzbar available - Enhanced QR detection enabled
+🎥 Video capture initialized successfully
+🚀 QR Code Scanner started!
+🎯 QR Code detected (pyzbar): https://example.com/qr-data
+📝 Logged to qr_scan_log.txt
+💾 Frame saved as qr_scan_20250613_143022.jpg
+```
+
+### Log File Format
+```
+2025-06-13 14:30:22 | pyzbar | https://example.com/qr-data
+2025-06-13 14:31:15 | opencv | QR_CODE_TEXT_DATA_HERE
+2025-06-13 14:32:08 | pyzbar | {"type":"json","data":"example"}
+```
+
+## 🔧 Performance Optimization
+
+### For Resource-Constrained Systems
+```python
+# Modify these settings in the code:
+self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
+self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+self.cap.set(cv2.CAP_PROP_FPS, 15)
+```
+
+### For High-Resolution Applications
+```python
+# For 4K drone feeds:
+self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
+self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
+self.cap.set(cv2.CAP_PROP_FPS, 30)
+```
+
+## 🐛 Troubleshooting
+
+### Common Issues and Solutions
+
+**"Failed to open video source"**
+- ✅ Check camera connection and permissions
+- ✅ Try different source indices (0, 1, 2)
+- ✅ Verify RTSP/HTTP URLs are accessible
+- ✅ Ensure camera isn't used by another app
+
+**Poor QR Detection Performance**
+- ✅ Improve lighting conditions
+- ✅ Ensure QR codes are properly sized (not too small/large)
+- ✅ Clean camera lens
+- ✅ Reduce camera movement/vibration
+- ✅ Try both detection methods
+
+**Drone Connection Issues**
+- ✅ Verify network connectivity to drone
+- ✅ Check drone's video streaming settings
+- ✅ Confirm RTSP/UDP port configuration
+- ✅ Test stream URL in VLC or similar player first
+
+**High CPU Usage**
+- ✅ Reduce frame resolution
+- ✅ Lower frame rate
+- ✅ Use single detection method only
+- ✅ Disable on-screen display with `--no-display`
+
+### Debug Mode
+Add this to enable verbose debugging:
+```python
+import logging
+logging.basicConfig(level=logging.DEBUG)
+```
+
+## 🔄 Advanced Features
 
 ### Multiple QR Code Detection
+The scanner automatically handles multiple QR codes in a single frame when using pyzbar.
 
-The current implementation detects one QR code at a time. For multiple QR codes:
-
+### Custom Detection Areas
+Modify the code to scan only specific regions:
 ```python
-# Use detectAndDecodeMulti for multiple QR codes
-success, data_list, points_list, _ = detector.detectAndDecodeMulti(frame)
+# Add region of interest (ROI) processing
+roi = frame[y1:y2, x1:x2]
+qr_results = self.detect_qr_pyzbar(roi)
 ```
 
-### Data Logging
+### Integration with Drone SDKs
 
-Add logging functionality to save detected QR codes:
-
+**DJI Tello:**
 ```python
-import datetime
-
-if data:
-    timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    with open("qr_log.txt", "a") as f:
-        f.write(f"{timestamp}: {data}\n")
+from djitellopy import Tello
+# Initialize Tello and get video stream
+# Then use stream URL with scanner
 ```
 
-## Dependencies
+**ArduPilot/MAVLink:**
+```python
+from pymavlink import mavutil
+# Connect to flight controller
+# Process video stream through scanner
+```
 
-- **OpenCV (cv2)**: Computer vision library for video processing and QR code detection
-- **NumPy**: Array processing (included with OpenCV)
-
-## Contributing
+## 🤝 Contributing
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
@@ -193,22 +266,52 @@ if data:
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## License
+### Development Setup
+```bash
+git clone <repository-url>
+cd qr-scanner
+pip install -r requirements.txt
+python -m pytest tests/  # Run tests
+```
 
-This project is licensed under the MIT License
+## 📄 License
 
-## Acknowledgments
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-- OpenCV community for computer vision tools
-- Contributors to QR code detection algorithms
-- Drone development communities for integration insights
+## 🙌 Acknowledgments
 
-## Support
+- **OpenCV Community** for computer vision tools
+- **Pyzbar Developers** for enhanced QR code detection
+- **Drone Development Communities** for integration insights
+- **Original Authors**: 
+  - [Amit Kumar](https://github.com/1Amitkry) - Initial QR scanner concept
+  - [Saurav Bhowmick](https://github.com/SauravBhowmick) - Drone integration approach
+
+## 📞 Support
 
 For support, questions, or feature requests:
-- Open an issue on GitHub
-- Contact: [bhowmicksaurav28@gmail.com]
+- 🐛 **Issues**: Open an issue on GitHub
+- 📧 **Email**: Contact maintainers
+- 📖 **Documentation**: Check this README and code comments
 
 ---
 
-**Note**: This application is designed for educational and development purposes. Ensure compliance with local regulations when using drones and camera systems.
+## 🚀 Future Enhancements
+
+### Planned Features
+- 🔊 **Audio Feedback**: Sound alerts for QR detection
+- 📱 **Mobile App**: Companion mobile application
+- 🌐 **Web Interface**: Browser-based control panel
+- 🤖 **AI Integration**: Machine learning for improved detection
+- 📊 **Analytics Dashboard**: Detection statistics and reporting
+- 🔐 **Security Features**: Encrypted QR code handling
+- 🗺️ **GPS Integration**: Location tagging for drone applications
+
+### API Development
+- REST API for remote control
+- WebSocket support for real-time data
+- Integration with popular drone management platforms
+
+---
+
+**⚠️ Note**: This application is designed for educational and development purposes. Ensure compliance with local regulations when using drones and camera systems. Always test thoroughly in controlled environments before deployment.
