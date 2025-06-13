@@ -1,5 +1,5 @@
 import cv2
-from pyzbar.pyzbar import decode
+from pyzbar.pyzbar import decode #=> this library is not working at my end, kindly look at the comment i gave you in the issue.
 
 # Open the webcam
 cap = cv2.VideoCapture(0)
