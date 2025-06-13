@@ -37,34 +37,34 @@ pip install opencv-python pyzbar argparse pathlib
 
 ### Basic Usage (Webcam)
 ```bash
-python qr_scanner.py
+python QR_Reader.py
 ```
 
 ### Advanced Usage Examples
 
 **Single Detection Mode:**
 ```bash
-python qr_scanner.py --single
+python QR_Reader.py --single
 ```
 
 **With Logging:**
 ```bash
-python qr_scanner.py --log
+python QR_Reader.py --log
 ```
 
 **External Camera:**
 ```bash
-python qr_scanner.py --source 1
+python QR_Reader.py --source 1
 ```
 
 **RTSP Stream (Drone):**
 ```bash
-python qr_scanner.py --source "rtsp://192.168.1.100:8080/live"
+python QR_Reader.py --source "rtsp://192.168.1.100:8080/live"
 ```
 
 **HTTP Stream:**
 ```bash
-python qr_scanner.py --source "http://drone_ip:8080/stream"
+python QR_Reader.py --source "http://drone_ip:8080/stream"
 ```
 
 ## 🎮 Controls
@@ -78,7 +78,7 @@ python qr_scanner.py --source "http://drone_ip:8080/stream"
 ## 🛠️ Command Line Options
 
 ```bash
-usage: qr_scanner.py [-h] [--source SOURCE] [--continuous] [--single] [--log] [--no-display]
+usage: QR_Reader.py [-h] [--source SOURCE] [--continuous] [--single] [--log] [--no-display]
 
 Enhanced QR Code Scanner
 
@@ -99,25 +99,25 @@ optional arguments:
 **DJI Drones:**
 ```bash
 # Standard DJI stream
-python qr_scanner.py --source "rtmp://192.168.1.1:1935/live"
+python QR_Reader.py --source "rtmp://192.168.1.1:1935/live"
 
 # DJI Mobile SDK stream
-python qr_scanner.py --source "rtsp://192.168.1.1:8080/live"
+python QR_Reader.py --source "rtsp://192.168.1.1:8080/live"
 ```
 
 **Custom Drones:**
 ```bash
 # Generic RTSP stream
-python qr_scanner.py --source "rtsp://drone_ip:554/stream"
+python QR_Reader.py --source "rtsp://drone_ip:554/stream"
 
 # UDP stream
-python qr_scanner.py --source "udp://drone_ip:1234"
+python QR_Reader.py --source "udp://drone_ip:1234"
 ```
 
 **ArduPilot/PX4:**
 ```bash
 # MAVLink video stream
-python qr_scanner.py --source "udp://127.0.0.1:5600"
+python QR_Reader.py --source "udp://127.0.0.1:5600"
 ```
 
 ### Drone Configuration Examples
@@ -125,13 +125,13 @@ python qr_scanner.py --source "udp://127.0.0.1:5600"
 **For FPV Racing Drones:**
 ```python
 # Low latency configuration
-python qr_scanner.py --source "udp://192.168.1.10:5600" --single
+python QR_Reader.py --source "udp://192.168.1.10:5600" --single
 ```
 
 **For Survey/Mapping Applications:**
 ```python
 # Continuous logging for waypoint navigation
-python qr_scanner.py --source "rtsp://drone:8080/hd" --log --continuous
+python QR_Reader.py --source "rtsp://drone:8080/hd" --log --continuous
 ```
 
 ## 🏗️ Code Architecture
